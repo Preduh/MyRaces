@@ -20,7 +20,7 @@ const Home: NextPage = () => {
       <main>
         <form onSubmit={handleSubmit(handleSignIn)}>
           <h1>
-            Entre em <span>MyRaces</span>
+            Entre em <span>MyRace</span>
           </h1>
           <label>ou use seu nome de usuário</label>
           <input
