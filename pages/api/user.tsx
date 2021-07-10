@@ -12,7 +12,7 @@ interface IResponseSucess {
 
 export default async (
   request: NextApiRequest,
-  response: NextApiResponse<IResponseError | IResponseSucess>
+  response: NextApiResponse<IResponseSucess | IResponseError>
 ): Promise<void> => {
   if (request.method === 'POST') {
     const { username, password } = request.body
