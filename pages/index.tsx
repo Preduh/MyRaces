@@ -1,6 +1,10 @@
 import styles from '../styles/Home.module.scss'
-import { NextPage } from 'next'
+import { GetServerSideProps, NextPage } from 'next'
+import { useEffect } from 'react'
+import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
+import { signIn, useSession } from 'next-auth/client'
+import { parseCookies } from 'nookies'
 
 interface IData {
   username: string
@@ -8,11 +12,18 @@ interface IData {
 }
 
 const Home: NextPage = () => {
+  const router = useRouter()
+
   const { register, handleSubmit } = useForm()
+  const [session] = useSession()
 
   const handleSignIn = (data: IData) => {
     console.log(data)
   }
+
+  useEffect(() => {
+    session && router.push('/teste')
+  }, [session])
 
   return (
     <div className={styles.pageAuth}>
@@ -20,8 +31,20 @@ const Home: NextPage = () => {
       <main>
         <form onSubmit={handleSubmit(handleSignIn)}>
           <h1>
-            Entre em <span>MyRace</span>
+            Entre em <span>MyRaces</span>
           </h1>
+          {!session && (
+            <button
+              onClick={() =>
+                signIn('google', {
+                  callbackUrl: 'http://localhost:3000/teste'
+                })
+              }
+              id={styles.googleBtn}
+            >
+              <img src="/images/google.png" />
+            </button>
+          )}
           <label>ou use seu nome de usuário</label>
           <input
             {...register('username')}
@@ -45,3 +68,20 @@ const Home: NextPage = () => {
 }
 
 export default Home
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const { ['next-auth.session-token']: token } = parseCookies(ctx)
+
+  if (token) {
+    return {
+      redirect: {
+        destination: '/teste',
+        permanent: false
+      }
+    }
+  }
+
+  return {
+    props: {}
+  }
+}

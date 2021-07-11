@@ -1,7 +1,18 @@
 import { NextPage } from 'next'
+import { signOut } from 'next-auth/client'
 
 const Teste: NextPage = () => {
-  return <h1>Teste page</h1>
+  return (
+    <button
+      onClick={() =>
+        signOut({
+          callbackUrl: 'http://localhost:3000'
+        })
+      }
+    >
+      Sign out
+    </button>
+  )
 }
 
 export default Teste
