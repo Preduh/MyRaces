@@ -22,7 +22,7 @@ const Home: NextPage = () => {
   }
 
   useEffect(() => {
-    session && router.push('/teste')
+    session && router.push('/dashboard')
   }, [session])
 
   return (
@@ -37,7 +37,7 @@ const Home: NextPage = () => {
             <button
               onClick={() =>
                 signIn('google', {
-                  callbackUrl: `${process.env.NEXTAUTH_URL}/teste`
+                  callbackUrl: `${process.env.NEXTAUTH_URL}/dashboard`
                 })
               }
               id={styles.googleBtn}
@@ -70,12 +70,12 @@ const Home: NextPage = () => {
 export default Home
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const { ['next-auth.session-token']: token } = parseCookies(ctx)
+  const { [process.env.TOKEN_KEY]: token } = parseCookies(ctx)
 
   if (token) {
     return {
       redirect: {
-        destination: '/teste',
+        destination: '/dashboard',
         permanent: false
       }
     }
