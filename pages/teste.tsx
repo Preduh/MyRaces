@@ -3,13 +3,17 @@ import { parseCookies } from 'nookies'
 import { signOut } from 'next-auth/client'
 
 const Teste: NextPage = () => {
-  return <button onClick={() => signOut()}>Sign out</button>
+  return (
+    <button onClick={() => signOut({ callbackUrl: process.env.NEXTAUTH_URL })}>
+      Sign out
+    </button>
+  )
 }
 
 export default Teste
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const { ['__Secure-next-auth.session-token']: token } = parseCookies(ctx)
+  const { ['https://my-races.vercel.app']: token } = parseCookies(ctx)
 
   if (!token) {
     return {
