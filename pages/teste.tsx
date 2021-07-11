@@ -3,7 +3,6 @@ import { parseCookies } from 'nookies'
 import { signOut } from 'next-auth/client'
 
 const Teste: NextPage = () => {
-  console.log(process.env.NEXTAUTH_URL)
   return <button onClick={() => signOut()}>Sign out</button>
 }
 
