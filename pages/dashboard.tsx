@@ -25,7 +25,7 @@ const Teste: NextPage = () => {
 export default Teste
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const { [process.env.TOKEN_KEY]: token } = parseCookies(ctx)
+  const { ['__Secure-next-auth.session-token']: token } = parseCookies(ctx)
 
   if (!token) {
     return {
