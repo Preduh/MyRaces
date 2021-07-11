@@ -1,5 +1,6 @@
 import styles from '../styles/Home.module.scss'
 import { GetServerSideProps, NextPage } from 'next'
+import Link from 'next/link'
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
@@ -61,6 +62,12 @@ const Home: NextPage = () => {
             name="password"
           />
           <button type="submit">Entrar</button>
+          <p>
+            Não tem conta?
+            <Link href="/signup">
+              <a>Registre-se</a>
+            </Link>
+          </p>
         </form>
       </main>
     </div>
@@ -70,7 +77,7 @@ const Home: NextPage = () => {
 export default Home
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const { ['__Secure-next-auth.session-token']: token } = parseCookies(ctx)
+  const { ['next-auth.session-token']: token } = parseCookies(ctx)
 
   if (token) {
     return {
