@@ -13,7 +13,7 @@ const Teste: NextPage = () => {
 export default Teste
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const { ['https://my-races.vercel.app']: token } = parseCookies(ctx)
+  const { ['__Secure-next-auth.session-token']: token } = parseCookies(ctx)
 
   if (!token) {
     return {
