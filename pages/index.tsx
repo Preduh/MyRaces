@@ -37,7 +37,7 @@ const Home: NextPage = () => {
             <button
               onClick={() =>
                 signIn('google', {
-                  callbackUrl: 'http://localhost:3000/teste'
+                  callbackUrl: process.env.NEXTAUTH_URL + '/teste'
                 })
               }
               id={styles.googleBtn}
