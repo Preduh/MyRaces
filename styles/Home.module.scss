@@ -81,7 +81,8 @@
             transition: all linear 0.1s;
 
             img {
-                width: 32px;
+                min-width: 32px;
+                min-height: 32px;
             }
 
             &:hover {
