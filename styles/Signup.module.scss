@@ -3,7 +3,7 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-    height: 100%;
+    height: 100vh;
     background-color: #396ad3;
     
     form {
@@ -105,6 +105,8 @@
 
 @media (max-width: 600px) {
     .signup {
+        height: 100%;
+        
         form {
             width: 100%;
             height: 100%;
