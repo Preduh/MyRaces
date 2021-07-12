@@ -8,7 +8,7 @@ const Teste: NextPage = () => {
 
   const logout = () => {
     destroyCookie(null, 'TOKEN')
-    signOut()
+    signOut({ callbackUrl: process.env.NEXTAUTH_URL })
   }
 
   return (
