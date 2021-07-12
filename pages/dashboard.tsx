@@ -30,7 +30,7 @@ const Teste: NextPage = () => {
 export default Teste
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const { ['__Secure-next-auth.session-token']: nextAuthToken } =
+  const { ['__Secure.next-auth.session-token']: nextAuthToken } =
     parseCookies(ctx)
 
   if (!nextAuthToken) {

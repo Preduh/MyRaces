@@ -35,9 +35,10 @@ export default async (
         password: encyiptedPassword
       })
 
-      return response
-        .status(201)
-        .json({ message: 'Successfully create account' })
+      return response.status(201).json({
+        message:
+          'Conta criada com sucesso, você será redirecionado para a página de login'
+      })
     } else if (userAlreadyExists && emailAlreadyExists) {
       return response.json({ error: 'This username and email already exists' })
     } else if (userAlreadyExists && !emailAlreadyExists) {

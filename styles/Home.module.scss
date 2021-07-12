@@ -99,6 +99,14 @@
             outline: none;
             font-size: 22px;
             font-weight: 400;
+
+            &:hover {
+                transform: scale(1.02);
+            }
+
+            &:active {
+                transform: scale(0.98);
+            }
         }
         
         p {

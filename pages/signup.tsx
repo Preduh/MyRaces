@@ -4,6 +4,7 @@ import styles from '../styles/Signup.module.scss'
 import axios from 'axios'
 import { useForm } from 'react-hook-form'
 import { useState } from 'react'
+import router from 'next/router'
 
 interface IUserData {
   username: string
@@ -22,8 +23,13 @@ const Signup: NextPage = () => {
 
   const handleSignup = async (userData: IUserData) => {
     const { data } = await axios.post('/api/user/create', userData)
-
     setMsg(data)
+
+    if (data.message) {
+      setTimeout(() => {
+        router.push('/')
+      }, 5000)
+    }
   }
 
   return (
@@ -37,18 +43,21 @@ const Signup: NextPage = () => {
           type="text"
           placeholder="Username"
           name="username"
+          required
         />
         <input
           {...register('email')}
           type="email"
           placeholder="Email"
           name="email"
+          required
         />
         <input
           {...register('password')}
           type="password"
           placeholder="Password"
           name="password"
+          required
         />
         <button type="submit">Criar conta</button>
         <p>

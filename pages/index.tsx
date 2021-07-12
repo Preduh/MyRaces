@@ -52,6 +52,7 @@ const Home: NextPage = () => {
                 })
               }
               id={styles.googleBtn}
+              type="button"
             >
               <img src="/images/google.png" />
             </button>
@@ -64,12 +65,14 @@ const Home: NextPage = () => {
             autoFocus={true}
             name="username"
             autoComplete="off"
+            required
           />
           <input
             {...register('password')}
             type="password"
             placeholder="Senha"
             name="password"
+            required
           />
           <button type="submit">Entrar</button>
           <p>
@@ -87,7 +90,7 @@ const Home: NextPage = () => {
 export default Home
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const { ['__Secure-next-auth.session-token']: token } = parseCookies(ctx)
+  const { ['__Secure.next-auth.session-token']: token } = parseCookies(ctx)
 
   if (token) {
     return {
