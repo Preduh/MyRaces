@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "axios": "^0.21.1",
+    "bcrypt": "^5.0.1",
     "mongodb": "^3.6.10",
     "next": "11.0.1",
     "next-auth": "^3.27.3",
@@ -23,6 +25,7 @@
     "@nrwl/eslint-plugin-nx": "^12.4.0",
     "@nrwl/nx": "^7.8.7",
     "@nrwl/workspace": "^12.4.0",
+    "@types/bcrypt": "^5.0.0",
     "@types/mongodb": "^3.6.20",
     "@types/next-auth": "^3.15.0",
     "@types/react": "^17.0.11",

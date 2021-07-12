@@ -5,7 +5,8 @@ import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
 import { signIn, useSession } from 'next-auth/client'
-import { parseCookies } from 'nookies'
+import { parseCookies, setCookie } from 'nookies'
+import axios from 'axios'
 
 interface IData {
   username: string
@@ -18,8 +19,17 @@ const Home: NextPage = () => {
   const { register, handleSubmit } = useForm()
   const [session] = useSession()
 
-  const handleSignIn = (data: IData) => {
-    console.log(data)
+  const handleSignIn = async (userData: IData) => {
+    const { data } = await axios.post('/api/user/login', userData)
+
+    if (data.message) {
+      setCookie(
+        null,
+        'TOKEN',
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c'
+      )
+      router.push('/dashboard')
+    }
   }
 
   useEffect(() => {
@@ -32,7 +42,7 @@ const Home: NextPage = () => {
       <main>
         <form onSubmit={handleSubmit(handleSignIn)}>
           <h1>
-            Entre em <span>MyRaces</span>
+            Entre no <span>MyRaces</span>
           </h1>
           {!session && (
             <button

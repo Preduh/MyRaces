@@ -1,0 +1,112 @@
+.signup {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100vh;
+    
+    form {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: 60%;
+        border: 1px solid #a3a3a3;
+        padding: 24px;
+        border-radius: 8px;
+
+        h1 {
+            color: #474747;
+            font-size: 34px;
+            text-align: center;
+            margin-bottom: 32px;
+
+            span {
+                color: #396ad3;
+            }
+        }
+
+        label {
+            color: #696969;
+            align-self: center;
+            margin: 24px 0;
+        }
+    }
+
+    input {
+        border: 1px solid #a3a3a3;;
+        color: #474747;
+        outline: none;
+        height: 48px;
+        font-size: 22px;
+        margin-bottom: 24px;
+        padding: 8px;
+        border-radius: 8px;
+        font-weight: 300;
+
+        &::placeholder {
+            color: #a3a3a3;
+            font-size: 20px;
+            font-weight: 300;
+        }
+
+        &:focus {
+            border: 1px solid #396ad3;
+        }
+    }
+
+    button {
+        border: none;
+        background-color: #396ad3;
+        color: white;
+        height: 48px;
+        border-radius: 8px;
+        margin-top: 16px;
+        cursor: pointer;
+        outline: none;
+        font-size: 22px;
+        font-weight: 400;
+    }
+
+    p {
+        margin-top: 16px;
+        color: #696969;
+
+        a {
+            color: #396ad3;
+            font-weight: 500;
+            text-decoration: none;
+            margin-left: 4px;
+        }
+    }
+
+    .errorMsg {
+        background-color: #f0cccc;
+        border: 1px solid #915555;
+        border-radius: 8px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #270909;
+        height: 48px;
+    }
+
+    .message {
+        background-color: #ccf0cf;
+        border: 1px solid #5c9155;
+        border-radius: 8px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #092709;
+        height: 48px;
+    }
+}
+
+@media (max-width: 600px) {
+    .signup {
+        form {
+            width: 90%;
+            height: 90%;
+        }
+    }
+}

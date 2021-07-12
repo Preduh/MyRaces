@@ -1,10 +1,15 @@
 import { NextPage, GetServerSideProps } from 'next'
-import { parseCookies } from 'nookies'
+import { parseCookies, destroyCookie } from 'nookies'
 import { signOut, useSession } from 'next-auth/client'
 import styles from '../styles/Dashboard.module.scss'
 
 const Teste: NextPage = () => {
   const [session] = useSession()
+
+  const logout = () => {
+    destroyCookie(null, 'TOKEN')
+    signOut()
+  }
 
   return (
     <div className={styles.dashboard}>
@@ -17,7 +22,7 @@ const Teste: NextPage = () => {
           </>
         )}
       </div>
-      <button onClick={() => signOut()}>Sign out</button>
+      <button onClick={logout}>Sign out</button>
     </div>
   )
 }
@@ -25,13 +30,18 @@ const Teste: NextPage = () => {
 export default Teste
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const { ['__Secure-next-auth.session-token']: token } = parseCookies(ctx)
+  const { ['__Secure-next-auth.session-token']: nextAuthToken } =
+    parseCookies(ctx)
 
-  if (!token) {
-    return {
-      redirect: {
-        destination: '/',
-        permanent: false
+  if (!nextAuthToken) {
+    const { ['TOKEN']: token } = parseCookies(ctx)
+
+    if (!token) {
+      return {
+        redirect: {
+          destination: '/',
+          permanent: false
+        }
       }
     }
   }
