@@ -142,3 +142,13 @@
         }
     }
 }
+
+@media (max-height: 500px) {
+    .pageAuth {
+        main {
+            form {
+                justify-content: initial;
+            }
+        }
+    }
+}
