@@ -72,7 +72,7 @@
             font-weight: 400;
             box-shadow: 2px 2px 8px #696969;
             border-radius: 50%;
-            width: 64px;
+            min-width: 64px;
             height: 64px;
             display: flex;
             align-items: center;
@@ -81,8 +81,7 @@
             transition: all linear 0.1s;
 
             img {
-                min-width: 32px;
-                min-height: 32px;
+                width: 32px;
             }
 
             &:hover {
