@@ -22,12 +22,8 @@ const Home: NextPage = () => {
   const handleSignIn = async (userData: IData) => {
     const { data } = await axios.post('/api/user/login', userData)
 
-    if (data.message) {
-      setCookie(
-        null,
-        'TOKEN',
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c'
-      )
+    if (data.token) {
+      setCookie(null, 'TOKEN', data.token)
       router.push('/dashboard')
     }
   }

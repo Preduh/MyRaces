@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import connect from '../../../utils/database'
 import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
 
 interface IUser {
   _id: string
@@ -28,7 +29,11 @@ export default async (
       const passwordIsCorrect = await bcrypt.compare(password, user.password)
 
       if (passwordIsCorrect) {
-        return response.json({ message: true })
+        const token = jwt.sign({ user }, process.env.SECRET, {
+          expiresIn: 3600
+        })
+
+        return response.json({ token })
       } else {
         return response.json({ error: 'Username/Password incorrect' })
       }

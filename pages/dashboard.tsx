@@ -2,9 +2,36 @@ import { NextPage, GetServerSideProps } from 'next'
 import { parseCookies, destroyCookie } from 'nookies'
 import { signOut, useSession } from 'next-auth/client'
 import styles from '../styles/Dashboard.module.scss'
+import jwt from 'jsonwebtoken'
+import { useEffect, useState } from 'react'
 
-const Teste: NextPage = () => {
+interface IPayload {
+  user: {
+    _id: string
+    username: string
+    email: string
+  }
+}
+
+interface IUser {
+  _id: string
+  username: string
+  email: string
+}
+
+const Dashboard: NextPage = () => {
   const [session] = useSession()
+  const [userData, setUserData] = useState({} as IUser)
+
+  const { ['TOKEN']: token } = parseCookies()
+
+  useEffect(() => {
+    if (token) {
+      const payload = jwt.decode(token) as IPayload
+
+      setUserData(payload.user)
+    }
+  }, [])
 
   const logout = () => {
     destroyCookie(null, 'TOKEN')
@@ -16,9 +43,14 @@ const Teste: NextPage = () => {
       <div className={styles.user}>
         {session && (
           <>
-            <img src={session.user.image} />
-            <p>{session.user.email}</p>
-            <p>{session.user.name}</p>
+            <h1>{session.user.name}</h1>
+            <h2>{session.user.email}</h2>
+          </>
+        )}
+        {Object.keys(userData).length !== 0 && (
+          <>
+            <h1>{userData.username}</h1>
+            <h2>{userData.email}</h2>
           </>
         )}
       </div>
@@ -27,7 +59,7 @@ const Teste: NextPage = () => {
   )
 }
 
-export default Teste
+export default Dashboard
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { ['__Secure-next-auth.session-token']: nextAuthToken } =
