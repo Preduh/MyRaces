@@ -45,7 +45,10 @@ export default async (
         expiresIn: '1h'
       })
 
-      return response.status(201).json({ token, user })
+      return response.status(201).json({
+        token,
+        user: { id: user._id, name: user.username, email: user.email }
+      })
     } else if (userAlreadyExists && emailAlreadyExists) {
       return response.json({ error: 'This username and email already exists' })
     } else if (userAlreadyExists && !emailAlreadyExists) {
