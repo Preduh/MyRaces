@@ -2,7 +2,7 @@ import { GetServerSideProps, NextPage } from 'next'
 import Link from 'next/link'
 import styles from '../styles/Signup.module.scss'
 import { useForm } from 'react-hook-form'
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { AuthContext } from '../contexts/authContext'
 import { parseCookies } from 'nookies'
 
@@ -15,9 +15,12 @@ interface IUserData {
 const Signup: NextPage = () => {
   const { register, handleSubmit } = useForm()
   const { signUp } = useContext(AuthContext)
+  const [error, setError] = useState('')
 
   const handleSignup = async (userData: IUserData) => {
-    await signUp(userData)
+    const err = await signUp(userData)
+
+    setError(err)
   }
 
   return (
@@ -54,6 +57,7 @@ const Signup: NextPage = () => {
             <a>Entre</a>
           </Link>
         </p>
+        <p>{error}</p>
       </form>
     </div>
   )

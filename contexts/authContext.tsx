@@ -34,7 +34,7 @@ interface IAuthContext {
   isAuthenticated: boolean
   user: IUser
   signIn: (data: IUserDataSignIn) => Promise<void>
-  signUp: (data: IUserDataSignUp) => Promise<void>
+  signUp: (data: IUserDataSignUp) => Promise<string>
 }
 
 export const AuthContext = createContext({} as IAuthContext)
@@ -81,18 +81,22 @@ export function AuthProvider({ children }: AuxProps): JSX.Element {
       password
     })
 
-    const token: string = data.token
-    const user = data.user
+    if (!data.error) {
+      const token: string = data.token
+      const user = data.user
 
-    api.defaults.headers['Authorization'] = token
+      api.defaults.headers['Authorization'] = token
 
-    setCookie(undefined, 'myraces.token', token, {
-      maxAge: 60 * 60 * 1 // 1 hour
-    })
+      setCookie(undefined, 'myraces.token', token, {
+        maxAge: 60 * 60 * 1 // 1 hour
+      })
 
-    setUser(user)
+      setUser(user)
 
-    router.push('/dashboard')
+      router.push('/dashboard')
+    } else {
+      return data.error
+    }
   }
 
   return (
