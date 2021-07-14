@@ -1,10 +1,10 @@
-import { NextPage } from 'next'
+import { GetServerSideProps, NextPage } from 'next'
 import Link from 'next/link'
 import styles from '../styles/Signup.module.scss'
-import axios from 'axios'
 import { useForm } from 'react-hook-form'
-import { useState } from 'react'
-import router from 'next/router'
+import { useContext } from 'react'
+import { AuthContext } from '../contexts/authContext'
+import { parseCookies } from 'nookies'
 
 interface IUserData {
   username: string
@@ -12,24 +12,12 @@ interface IUserData {
   password: string
 }
 
-interface IData {
-  message: string
-  error: string
-}
-
 const Signup: NextPage = () => {
   const { register, handleSubmit } = useForm()
-  const [msg, setMsg] = useState({} as IData)
+  const { signUp } = useContext(AuthContext)
 
   const handleSignup = async (userData: IUserData) => {
-    const { data } = await axios.post('/api/user/create', userData)
-    setMsg(data)
-
-    if (data.message) {
-      setTimeout(() => {
-        router.push('/')
-      }, 5000)
-    }
+    await signUp(userData)
   }
 
   return (
@@ -66,11 +54,26 @@ const Signup: NextPage = () => {
             <a>Entre</a>
           </Link>
         </p>
-        {msg.error && <p className={styles.errorMsg}>{msg.error}</p>}
-        {msg.message && <p className={styles.message}>{msg.message}</p>}
       </form>
     </div>
   )
 }
 
 export default Signup
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const { ['myraces.token']: token } = parseCookies(ctx)
+
+  if (token) {
+    return {
+      redirect: {
+        destination: '/dashboard',
+        permanent: false
+      }
+    }
+  }
+
+  return {
+    props: {}
+  }
+}

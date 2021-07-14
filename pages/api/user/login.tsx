@@ -29,11 +29,18 @@ export default async (
       const passwordIsCorrect = await bcrypt.compare(password, user.password)
 
       if (passwordIsCorrect) {
-        const token = jwt.sign({ user }, process.env.SECRET, {
-          expiresIn: 3600
+        const token = jwt.sign({ id: user._id }, process.env.SECRET, {
+          expiresIn: '1h'
         })
 
-        return response.json({ token })
+        return response.json({
+          token,
+          user: {
+            id: user._id,
+            name: user.username,
+            email: user.email
+          }
+        })
       } else {
         return response.json({ error: 'Username/Password incorrect' })
       }

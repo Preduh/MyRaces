@@ -1,12 +1,10 @@
 import styles from '../styles/Home.module.scss'
 import { GetServerSideProps, NextPage } from 'next'
 import Link from 'next/link'
-import { useEffect } from 'react'
-import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
-import { signIn, useSession } from 'next-auth/client'
-import { parseCookies, setCookie } from 'nookies'
-import axios from 'axios'
+import { parseCookies } from 'nookies'
+import { useContext } from 'react'
+import { AuthContext } from '../contexts/authContext'
 
 interface IData {
   username: string
@@ -14,23 +12,12 @@ interface IData {
 }
 
 const Home: NextPage = () => {
-  const router = useRouter()
-
   const { register, handleSubmit } = useForm()
-  const [session] = useSession()
+  const { signIn } = useContext(AuthContext)
 
   const handleSignIn = async (userData: IData) => {
-    const { data } = await axios.post('/api/user/login', userData)
-
-    if (data.token) {
-      setCookie(null, 'TOKEN', data.token)
-      router.push('/dashboard')
-    }
+    await signIn(userData)
   }
-
-  useEffect(() => {
-    session && router.push('/dashboard')
-  }, [session])
 
   return (
     <div className={styles.pageAuth}>
@@ -40,20 +27,6 @@ const Home: NextPage = () => {
           <h1>
             Entre no <span>MyRaces</span>
           </h1>
-          {!session && (
-            <button
-              onClick={() =>
-                signIn('google', {
-                  callbackUrl: `${process.env.NEXTAUTH_URL}/dashboard`
-                })
-              }
-              id={styles.googleBtn}
-              type="button"
-            >
-              <img src="/images/google.png" />
-            </button>
-          )}
-          <label>ou use seu nome de usuário</label>
           <input
             {...register('username')}
             type="text"
@@ -86,7 +59,7 @@ const Home: NextPage = () => {
 export default Home
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const { ['__Secure-next-auth.session-token']: token } = parseCookies(ctx)
+  const { ['myraces.token']: token } = parseCookies(ctx)
 
   if (token) {
     return {

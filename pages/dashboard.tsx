@@ -1,56 +1,26 @@
 import { NextPage, GetServerSideProps } from 'next'
 import { parseCookies, destroyCookie } from 'nookies'
-import { signOut, useSession } from 'next-auth/client'
 import styles from '../styles/Dashboard.module.scss'
-import jwt from 'jsonwebtoken'
-import { useEffect, useState } from 'react'
-
-interface IPayload {
-  user: {
-    _id: string
-    username: string
-    email: string
-  }
-}
-
-interface IUser {
-  _id: string
-  username: string
-  email: string
-}
+import { useContext } from 'react'
+import router from 'next/router'
+import { AuthContext } from '../contexts/authContext'
+import { getApiClient } from '../utils/axios'
 
 const Dashboard: NextPage = () => {
-  const [session] = useSession()
-  const [userData, setUserData] = useState({} as IUser)
-
-  const { ['TOKEN']: token } = parseCookies()
-
-  useEffect(() => {
-    if (token) {
-      const payload = jwt.decode(token) as IPayload
-
-      setUserData(payload.user)
-    }
-  }, [])
+  const { user } = useContext(AuthContext)
 
   const logout = () => {
-    destroyCookie(null, 'TOKEN')
-    signOut({ callbackUrl: process.env.NEXTAUTH_URL })
+    destroyCookie(null, 'myraces.token')
+    router.push('/')
   }
 
   return (
     <div className={styles.dashboard}>
       <div className={styles.user}>
-        {session && (
+        {user && (
           <>
-            <h1>{session.user.name}</h1>
-            <h2>{session.user.email}</h2>
-          </>
-        )}
-        {Object.keys(userData).length !== 0 && (
-          <>
-            <h1>{userData.username}</h1>
-            <h2>{userData.email}</h2>
+            <h1>{user.name}</h1>
+            <h2>{user.email}</h2>
           </>
         )}
       </div>
@@ -62,18 +32,28 @@ const Dashboard: NextPage = () => {
 export default Dashboard
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const { ['__Secure-next-auth.session-token']: nextAuthToken } =
-    parseCookies(ctx)
+  const { ['myraces.token']: token } = parseCookies(ctx)
 
-  if (!nextAuthToken) {
-    const { ['TOKEN']: token } = parseCookies(ctx)
+  if (token) {
+    const apiClient = getApiClient(ctx)
+    const { data } = await apiClient.post('api/user/me', { token })
 
-    if (!token) {
+    if (data.error) {
+      destroyCookie(ctx, 'myraces.token')
       return {
         redirect: {
           destination: '/',
           permanent: false
         }
+      }
+    }
+  }
+
+  if (!token) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false
       }
     }
   }

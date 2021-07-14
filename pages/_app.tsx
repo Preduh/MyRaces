@@ -1,12 +1,12 @@
 import '../styles/globals.scss'
 import { AppProps } from 'next/app'
-import { Provider } from 'next-auth/client'
+import { AuthProvider } from '../contexts/authContext'
 
 const MyApp = ({ Component, pageProps }: AppProps): JSX.Element => {
   return (
-    <Provider session={pageProps.session}>
+    <AuthProvider>
       <Component {...pageProps} />
-    </Provider>
+    </AuthProvider>
   )
 }
 

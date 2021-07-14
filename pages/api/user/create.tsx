@@ -1,18 +1,22 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import connect from '../../../utils/database'
 import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
 
 interface IResponseError {
   error: string
 }
 
-interface IResponseSucess {
-  message: string
+interface IUser {
+  _id: string
+  username: string
+  email: string
+  password: string
 }
 
 export default async (
   request: NextApiRequest,
-  response: NextApiResponse<IResponseSucess | IResponseError>
+  response: NextApiResponse<IResponseError | any>
 ): Promise<void> => {
   if (request.method === 'POST') {
     const { username, password, email } = request.body
@@ -29,16 +33,19 @@ export default async (
     if (!userAlreadyExists && !emailAlreadyExists) {
       const encyiptedPassword = await bcrypt.hash(password, 8)
 
-      await db.collection('users').insertOne({
+      const { ops } = await db.collection('users').insertOne({
         username,
         email,
         password: encyiptedPassword
       })
 
-      return response.status(201).json({
-        message:
-          'Conta criada com sucesso, você será redirecionado para a página de login'
+      const user: IUser = ops[0]
+
+      const token = jwt.sign({ id: user._id }, process.env.SECRET, {
+        expiresIn: '1h'
       })
+
+      return response.status(201).json({ token })
     } else if (userAlreadyExists && emailAlreadyExists) {
       return response.json({ error: 'This username and email already exists' })
     } else if (userAlreadyExists && !emailAlreadyExists) {
