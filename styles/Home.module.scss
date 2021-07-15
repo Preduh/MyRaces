@@ -110,6 +110,18 @@
                 transform: scale(0.98);
             }
         }
+
+        .conect {
+            display: flex;
+            flex-direction: row;
+            height: 64px;
+            align-items: center;
+            
+            input {
+                margin: 0px;
+                margin-right: 4px;
+            }
+        }
         
         p {
             margin-top: 16px;
@@ -121,6 +133,14 @@
                 text-decoration: none;
                 margin-left: 4px;
             }
+        }
+
+        .error {
+            color: #ac0202;
+            border: 1px solid #ac0202;
+            padding: 8px;
+            border-radius: 8px;
+            text-align: center;
         }
     }
 }

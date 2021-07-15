@@ -50,11 +50,11 @@ export default async (
         user: { id: user._id, name: user.username, email: user.email }
       })
     } else if (userAlreadyExists && emailAlreadyExists) {
-      return response.json({ error: 'This username and email already exists' })
+      return response.json({ error: 'Esse nome de usuário e email já existem' })
     } else if (userAlreadyExists && !emailAlreadyExists) {
-      return response.json({ error: 'This username already exists' })
+      return response.json({ error: 'Esse nome de usuário já existe' })
     } else if (!userAlreadyExists && emailAlreadyExists) {
-      return response.json({ error: 'This email already exists' })
+      return response.json({ error: 'Esse email já existe' })
     }
   } else {
     return response.json({ error: 'Wrong request method' })

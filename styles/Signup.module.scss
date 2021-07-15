@@ -80,26 +80,12 @@
         }
     }
 
-    .errorMsg {
-        background-color: #f0cccc;
-        border: 1px solid #915555;
+    .error {
+        color: #ac0202;
+        border: 1px solid #ac0202;
+        padding: 8px;
         border-radius: 8px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        color: #270909;
-        height: 48px;
-    }
-
-    .message {
-        background-color: #ccf0cf;
-        border: 1px solid #5c9155;
-        border-radius: 8px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        color: #092709;
-        height: 48px;
+        text-align: center;
     }
 }
 

@@ -22,6 +22,7 @@ interface IUser {
 interface IUserDataSignIn {
   username: string
   password: string
+  remember: boolean
 }
 
 interface IUserDataSignUp {
@@ -33,7 +34,7 @@ interface IUserDataSignUp {
 interface IAuthContext {
   isAuthenticated: boolean
   user: IUser
-  signIn: (data: IUserDataSignIn) => Promise<void>
+  signIn: (data: IUserDataSignIn) => Promise<string>
   signUp: (data: IUserDataSignUp) => Promise<string>
 }
 
@@ -54,24 +55,29 @@ export function AuthProvider({ children }: AuxProps): JSX.Element {
     }
   }, [])
 
-  const signIn = async ({ username, password }: IUserDataSignIn) => {
+  const signIn = async ({ username, password, remember }: IUserDataSignIn) => {
     const { data } = await api.post('/api/user/login', {
       username,
-      password
+      password,
+      remember
     })
 
-    const token: string = data.token
-    const user = data.user
+    if (!data.error) {
+      const token: string = data.token
+      const user = data.user
 
-    api.defaults.headers['Authorization'] = token
+      api.defaults.headers['Authorization'] = token
 
-    setCookie(undefined, 'myraces.token', token, {
-      maxAge: 60 * 60 * 1 // 1 hour
-    })
+      setCookie(undefined, 'myraces.token', token, {
+        maxAge: 60 * 60 * 24 * 3 // 1 hour
+      })
 
-    setUser(user)
+      setUser(user)
 
-    router.push('/dashboard')
+      router.push('/dashboard')
+    } else {
+      return data.error
+    }
   }
 
   const signUp = async ({ username, email, password }: IUserDataSignUp) => {
@@ -88,7 +94,7 @@ export function AuthProvider({ children }: AuxProps): JSX.Element {
       api.defaults.headers['Authorization'] = token
 
       setCookie(undefined, 'myraces.token', token, {
-        maxAge: 60 * 60 * 1 // 1 hour
+        maxAge: 60 * 60 * 24 * 3 // 1 hour
       })
 
       setUser(user)

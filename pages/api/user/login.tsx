@@ -15,10 +15,10 @@ export default async (
   response: NextApiResponse
 ): Promise<void> => {
   if (request.method === 'POST') {
-    const { username, password } = request.body
+    const { username, password, remember } = request.body
 
     if (!username || !password) {
-      return response.json({ error: 'Username/Password invalid' })
+      return response.json({ error: 'Nome de usuário/Senha invalidos' })
     }
 
     const { db } = await connect()
@@ -30,7 +30,7 @@ export default async (
 
       if (passwordIsCorrect) {
         const token = jwt.sign({ id: user._id }, process.env.SECRET, {
-          expiresIn: '1h'
+          expiresIn: remember ? '3d' : '1h'
         })
 
         return response.json({
@@ -42,10 +42,10 @@ export default async (
           }
         })
       } else {
-        return response.json({ error: 'Username/Password incorrect' })
+        return response.json({ error: 'Nome de usuário/Senha incorretos' })
       }
     } else {
-      return response.json({ error: 'Username/Password incorrect' })
+      return response.json({ error: 'Nome de usuário/Senha incorretos' })
     }
   } else {
     return response.json({ error: 'Wrong request method' })

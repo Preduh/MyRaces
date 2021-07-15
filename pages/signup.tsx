@@ -57,7 +57,7 @@ const Signup: NextPage = () => {
             <a>Entre</a>
           </Link>
         </p>
-        <p>{error}</p>
+        {error && <p className={styles.error}>{error}</p>}
       </form>
     </div>
   )
