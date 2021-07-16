@@ -49,8 +49,13 @@ const Home: NextPage = () => {
           />
           <button type="submit">Entrar</button>
           <div className={styles.conect}>
-            <input {...register('remember')} type="checkbox" name="remember" />
-            <label>Manter-se conectado</label>
+            <input
+              {...register('remember')}
+              type="checkbox"
+              id="remember"
+              name="remember"
+            />
+            <label htmlFor="remember">Manter-se conectado</label>
           </div>
           <p>
             Não tem conta?

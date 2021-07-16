@@ -1,39 +1,68 @@
 .dashboard {
-    background-color: #ffffff;
+    background-color: #396ad3;
     width: 100%;
     height: 100%;
     display: flex;
     flex-direction: column;
+
+    input[type="checkbox"] {
+        display: none;
+
+        &:checked {
+            ~.menu {
+                transform: translateX(0px);
+            }
+        }
+    }
+
+    .menuIcon {
+        img {
+            position: absolute;
+            top: 24px;
+            left: 24px;
+            width: 24px;
+            cursor: pointer;
+            z-index: 10;
+        }
+    }
 
     .menu {
         position: absolute;
         background-color: #325db9;
         width: 300px;
         height: 100vh;
-    }
+        padding: 80px 24px 0 24px;
+        transform: translateX(-300px);
+        transition: all 0.5s ease;
 
-    header {
-        width: 100%;
-        height: 64px;
-        background-color: #396ad3;
-        display: flex;
-        align-items: center;
-        padding: 0 32px;
+        .userInfos {
+            display: flex;
+            flex-direction: row;
+            border-top: 1px solid #cccccc;
+            border-bottom: 1px solid #cccccc;
+            padding: 8px 0;
 
-        input {
-            position: absolute;
-            width: 0;
-            height: 0;
-            z-index: 1;
-            display: block;
+            #userImage {
+                min-width: 48px;
+                height: 48px;
+                border-radius: 50%;
+            }
+
+            .userData {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                width: 100%;
+
+                h1 {
+                    font-size: 28px;
+                    color: #ffffff;
+                    font-weight: 400;
+                }
+            }
         }
 
-        img {
-            position: absolute;
-            top: 18px;
-            width: 24px;
-            cursor: pointer;
-        }
     }
 
     .content {
@@ -44,13 +73,13 @@
         justify-content: center;
 
         .user {
+            background-color: #ffffff;
             display: flex;
             align-self: center;
             justify-content: space-around;
             flex-direction: column;
             height: 50%;
             width: 50%;
-            border: 1px solid #a3a3a3;
             align-items: center;
             border-radius: 8px;
             color: #474747;
@@ -82,8 +111,31 @@
 
 @media (max-width: 600px) {
     .dashboard {
+        .menuIcon {
+            img {
+                left: 50%;
+                transform: translateX(-50%)
+            }
+        }
+
         .menu {
             width: 100%;
+            transform: translateY(-100%);
+
+            .userInfos {
+                align-items: center;
+                justify-content: space-between;
+                flex-direction: row;
+                padding: 8px;
+
+                #userImage {
+                    max-width: 64px;
+                }
+
+                .userData {
+                    justify-content: center;
+                }
+            }
         }
 
         .content {
@@ -97,4 +149,5 @@
             }
         }
     }
+
 }

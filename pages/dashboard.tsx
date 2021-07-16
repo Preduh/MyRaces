@@ -1,18 +1,13 @@
 import { NextPage, GetServerSideProps } from 'next'
 import { parseCookies, destroyCookie } from 'nookies'
 import styles from '../styles/Dashboard.module.scss'
-import { useContext, useState } from 'react'
+import { useContext } from 'react'
 import router from 'next/router'
 import { AuthContext } from '../contexts/authContext'
 import { getApiClient } from '../utils/axios'
 
 const Dashboard: NextPage = () => {
   const { user } = useContext(AuthContext)
-  const [expand, setExpand] = useState(false)
-
-  const expandMenu = () => {
-    setExpand(!expand)
-  }
 
   const logout = () => {
     destroyCookie(null, 'myraces.token')
@@ -21,13 +16,24 @@ const Dashboard: NextPage = () => {
 
   return (
     <div className={styles.dashboard}>
-      {expand && <div className={styles.menu} />}
-      <header>
-        <input type="checkbox" id="checkboxMenu" onChange={expandMenu} />
-        <label htmlFor="checkboxMenu">
-          <img src="/images/menu.png" />
-        </label>
-      </header>
+      <input
+        type="checkbox"
+        className={styles.checkboxMenu}
+        id="checkboxMenu"
+      />
+      <label htmlFor="checkboxMenu" className={styles.menuIcon}>
+        <img src="/images/menu.png" />
+      </label>
+      <div className={styles.menu}>
+        {user && (
+          <section className={styles.userInfos}>
+            <img src="images/user.png" id={styles.userImage} />
+            <div className={styles.userData}>
+              <h1>{user.name}</h1>
+            </div>
+          </section>
+        )}
+      </div>
       <div className={styles.content}>
         <div className={styles.user}>
           {user && (
