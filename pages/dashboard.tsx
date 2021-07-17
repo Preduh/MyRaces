@@ -1,13 +1,21 @@
 import { NextPage, GetServerSideProps } from 'next'
 import { parseCookies, destroyCookie } from 'nookies'
-import styles from '../styles/Dashboard.module.scss'
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import router from 'next/router'
+
 import { AuthContext } from '../contexts/authContext'
 import { getApiClient } from '../utils/axios'
+import styles from '../styles/Dashboard.module.scss'
+import Navbar from '../components/navbar'
+import Sidebar from '../components/sidebar'
 
 const Dashboard: NextPage = () => {
   const { user } = useContext(AuthContext)
+  const [sidebar, setSidebar] = useState(false)
+
+  const showSidebar = () => {
+    setSidebar(!sidebar)
+  }
 
   const logout = () => {
     destroyCookie(null, 'myraces.token')
@@ -15,37 +23,23 @@ const Dashboard: NextPage = () => {
   }
 
   return (
-    <div className={styles.dashboard}>
-      <input
-        type="checkbox"
-        className={styles.checkboxMenu}
-        id="checkboxMenu"
-      />
-      <label htmlFor="checkboxMenu" className={styles.menuIcon}>
-        <img src="/images/menu.png" />
-      </label>
-      <div className={styles.menu}>
-        {user && (
-          <section className={styles.userInfos}>
-            <img src="images/user.png" id={styles.userImage} />
-            <div className={styles.userData}>
-              <h1>{user.name}</h1>
-            </div>
-          </section>
-        )}
-      </div>
-      <div className={styles.content}>
-        <div className={styles.user}>
-          {user && (
-            <>
-              <h1>{user.name}</h1>
-              <h2>{user.email}</h2>
-            </>
-          )}
-          <button onClick={logout}>Sign out</button>
+    <>
+      <Sidebar className={sidebar ? styles.sidebar : styles.hiddenSidebar} />
+      <Navbar click={showSidebar} />
+      <div className={styles.dashboard}>
+        <div className={styles.content}>
+          <div className={styles.user}>
+            {user && (
+              <>
+                <h1>{user.name}</h1>
+                <h2>{user.email}</h2>
+              </>
+            )}
+            <button onClick={logout}>Sign out</button>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   )
 }
 
