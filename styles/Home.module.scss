@@ -5,14 +5,15 @@
     flex-direction: row;
 
     aside {
-        background-color: #396ad3;
-        flex: 7;
+        background-color: #312d59;
+        flex: 2;
         height: 100%;
+        min-width: 450px;
     }
 
     main {
-        background-color: #ffffff;
-        flex: 6;
+        background-color: #1a192a;
+        flex: 4;
         height: 100%;
         display: flex;
         align-items: center;
@@ -22,31 +23,30 @@
             display: flex;
             flex-direction: column;
             width: 60%;
-            border: 1px solid #a3a3a3;
             padding: 24px;
             border-radius: 8px;
             justify-content: center;
-
+            background-color: #312d59;
             h1 {
-                color: #474747;
+                color: #ffffff;
                 font-size: 34px;
                 text-align: center;
                 margin-bottom: 32px;
 
                 span {
-                    color: #396ad3;
+                    color: #d12d7c;
                 }
             }
 
             label {
-                color: #696969;
+                color: #ffffff;
                 align-self: center;
                 margin: 24px 0;
             }
         }
 
         input {
-            border: 1px solid #a3a3a3;;
+            border: 1px solid #312d59;;
             color: #474747;
             outline: none;
             height: 48px;
@@ -63,7 +63,7 @@
             }
 
             &:focus {
-                border: 1px solid #396ad3;
+                border: 1px solid #d12d7c;
             }
         }
 
@@ -92,7 +92,7 @@
 
         button {
             border: none;
-            background-color: #396ad3;
+            background-color: #d12d7c;
             color: white;
             min-height: 48px;
             border-radius: 8px;
@@ -125,10 +125,10 @@
         
         p {
             margin-top: 16px;
-            color: #696969;
+            color: #ffffff;
 
             a {
-                color: #396ad3;
+                color: #d12d7c;
                 font-weight: 500;
                 text-decoration: none;
                 margin-left: 4px;
