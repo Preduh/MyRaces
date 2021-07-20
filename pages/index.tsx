@@ -3,8 +3,9 @@ import { GetServerSideProps, NextPage } from 'next'
 import Link from 'next/link'
 import { useForm } from 'react-hook-form'
 import { parseCookies } from 'nookies'
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { AuthContext } from '../contexts/authContext'
+import Switch from '../components/switchButton'
 
 interface IData {
   username: string
@@ -17,6 +18,29 @@ const Home: NextPage = () => {
   const { signIn } = useContext(AuthContext)
   const [error, setError] = useState('')
 
+  const [darkMode, setDarkMode] = useState(false)
+
+  useEffect(() => {
+    if (!localStorage.getItem('theme')) {
+      localStorage.setItem('theme', 'light')
+    } else {
+      if (localStorage.getItem('theme') == 'light') {
+        setDarkMode(false)
+      } else if (localStorage.getItem('theme') == 'dark') {
+        setDarkMode(true)
+      }
+    }
+  }, [])
+
+  const handleChange = () => {
+    setDarkMode(!darkMode)
+    if (darkMode) {
+      localStorage.setItem('theme', 'light')
+    } else {
+      localStorage.setItem('theme', 'dark')
+    }
+  }
+
   const handleSignIn = async (userData: IData) => {
     const err = await signIn(userData)
 
@@ -24,47 +48,51 @@ const Home: NextPage = () => {
   }
 
   return (
-    <div className={styles.pageAuth}>
+    <div className={darkMode ? styles.pageAuthDark : styles.pageAuth}>
       <aside></aside>
       <main>
-        <form onSubmit={handleSubmit(handleSignIn)}>
-          <h1>
-            Entre no <span>MyRaces</span>
-          </h1>
-          <input
-            {...register('username')}
-            type="text"
-            placeholder="Nome de usuário"
-            autoFocus={true}
-            name="username"
-            autoComplete="off"
-            required
-          />
-          <input
-            {...register('password')}
-            type="password"
-            placeholder="Senha"
-            name="password"
-            required
-          />
-          <button type="submit">Entrar</button>
-          <div className={styles.conect}>
+        <section>
+          <Switch onChange={handleChange} checked={darkMode} />
+          <form onSubmit={handleSubmit(handleSignIn)}>
+            <h1>
+              Entre no <span>MyRaces</span>
+            </h1>
             <input
-              {...register('remember')}
-              type="checkbox"
-              id="remember"
-              name="remember"
+              {...register('username')}
+              type="text"
+              placeholder="Nome de usuário"
+              autoFocus={true}
+              name="username"
+              autoComplete="off"
+              autoCapitalize="off"
+              required
             />
-            <label htmlFor="remember">Manter-se conectado</label>
-          </div>
-          <p>
-            Não tem conta?
-            <Link href="/signup">
-              <a>Registre-se</a>
-            </Link>
-          </p>
-          {error && <p className={styles.error}>{error}</p>}
-        </form>
+            <input
+              {...register('password')}
+              type="password"
+              placeholder="Senha"
+              name="password"
+              required
+            />
+            <button type="submit">Entrar</button>
+            <div className={styles.connect}>
+              <input
+                {...register('remember')}
+                type="checkbox"
+                id="remember"
+                name="remember"
+              />
+              <label htmlFor="remember">Manter-se conectado</label>
+            </div>
+            <p>
+              Não tem conta?
+              <Link href="/signup">
+                <a>Registre-se</a>
+              </Link>
+            </p>
+            {error && <p className={styles.error}>{error}</p>}
+          </form>
+        </section>
       </main>
     </div>
   )
