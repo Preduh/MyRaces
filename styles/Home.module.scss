@@ -218,6 +218,27 @@
     }
 }
 
+@media (max-width: 875px) {
+    .pageAuth, .pageAuthDark {
+        aside {
+            display: none;
+        }
+    }
+
+    .pageAuthDark {
+        main {
+            section {
+                form {
+                    .error {
+                        color: #d12d7c;
+                        border: 1px solid #ffffff;
+                    }
+                }
+            }
+        }
+    }
+}
+
 @media (max-width: 600px) {
     .pageAuth, .pageAuthDark {
         height: 100%;
