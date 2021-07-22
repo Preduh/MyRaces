@@ -126,7 +126,9 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
         permanent: false
       }
     }
-  } else if (authToken) {
+  }
+
+  if (authToken) {
     return {
       redirect: {
         destination: '/dashboard',
