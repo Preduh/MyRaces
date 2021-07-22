@@ -29,7 +29,7 @@ const Dashboard: NextPage = () => {
 export default Dashboard
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const { ['myraces.token']: token, ['next-auth.session-token']: authToken } =
+  const { ['myraces.token']: token, [`${process.env.TOKEN_KEY}`]: authToken } =
     parseCookies(ctx)
 
   if (token) {
