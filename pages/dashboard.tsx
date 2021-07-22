@@ -29,8 +29,10 @@ const Dashboard: NextPage = () => {
 export default Dashboard
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const { ['myraces.token']: token, [`${process.env.TOKEN_KEY}`]: authToken } =
-    parseCookies(ctx)
+  const {
+    ['myraces.token']: token,
+    ['__Secure-next-auth.session-token']: authToken
+  } = parseCookies(ctx)
 
   if (token) {
     const apiClient = getApiClient(ctx)
