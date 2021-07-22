@@ -119,16 +119,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { ['myraces.token']: token, [`${process.env.TOKEN_KEY}`]: authToken } =
     parseCookies(ctx)
 
-  if (token) {
-    return {
-      redirect: {
-        destination: '/dashboard',
-        permanent: false
-      }
-    }
-  }
-
-  if (authToken) {
+  if (token || authToken) {
     return {
       redirect: {
         destination: '/dashboard',
