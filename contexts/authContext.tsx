@@ -34,7 +34,7 @@ interface IUserDataSignUp {
 interface IAuthContext {
   isAuthenticated: boolean
   user: IUser
-  signIn: (data: IUserDataSignIn) => Promise<string>
+  login: (data: IUserDataSignIn) => Promise<string>
   signUp: (data: IUserDataSignUp) => Promise<string>
 }
 
@@ -55,7 +55,7 @@ export function AuthProvider({ children }: AuxProps): JSX.Element {
     }
   }, [])
 
-  const signIn = async ({ username, password, remember }: IUserDataSignIn) => {
+  const login = async ({ username, password, remember }: IUserDataSignIn) => {
     const { data } = await api.post('/api/user/login', {
       username,
       password,
@@ -106,7 +106,7 @@ export function AuthProvider({ children }: AuxProps): JSX.Element {
   }
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, user, signIn, signUp }}>
+    <AuthContext.Provider value={{ isAuthenticated, user, login, signUp }}>
       {children}
     </AuthContext.Provider>
   )

@@ -1,25 +1,86 @@
 .navbar {
     width: 100%;
     height: 10%;
-    background-color: #2a50a3;
+    background-color: #396ad3;
     display: flex;
     align-items: center;
     padding: 32px;
     position: relative;
     border: none;
+    display: flex;
+    justify-content: space-between;
 
-    button {
+    .menuBtn {
         background: none;
         border: none;
         cursor: pointer;
 
         img {
-            width: 32px;
-            height: 32px;
+            width: 24px;
+            height: 24px;
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
             z-index: 2;
+        }
+    }
+
+    .userBtn {
+        background: none;
+        border: none;
+
+        input {
+            display: none;
+        }
+
+        img {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+    }
+
+    .userInfos {
+        background-color: #ffffff;
+        height: 300px;
+        position: absolute;
+        right: 88px;
+        top: 8px;
+        border-radius: 8px;
+        align-items: center;
+        justify-content: space-between;
+        flex-direction: column;
+        box-shadow: 2px 2px 12px #85858585;
+        display: none;
+        padding: 24px;
+        z-index: 1;
+
+        div {
+            width: 100%;
+
+            h1 {
+                font-size: 24px;
+                color: #474747;
+            }
+
+            h2 {
+                font-size: 16px;
+                color: #818181;
+                font-weight: 500;
+            }
+        }
+
+        .logoutBtn {
+            width: 100%;
+            height: 32px;
+            background-color: #396ad3;
+            border-radius: 8px;
+            border: none;
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: 300;
+            cursor: pointer;
         }
     }
 }
@@ -27,11 +88,26 @@
 @media (max-width: 600px) {
     .navbar {
         padding: 0;
+        align-items: center;
+
         button {
             img {
                 top: 25%;
-                left: 50%;
-                transform: translateX(-50%);
+                left: 16px;
+            }
+        }
+
+        .userInfos {
+            top: 100%;
+            right: 16px;
+        }
+
+        .userBtn {
+            margin-right: 16px;
+
+            img {
+                width: 40px;
+                height: 40px;
             }
         }
     }

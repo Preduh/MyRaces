@@ -1,18 +1,25 @@
 .sidebar {
-    width: 300px;
+    width: 20%;
     height: 100%;
     background-color: #204aa7;
     position: absolute;
-    z-index: 1;
+    z-index: 2;
     transition: all 0.5s;
 
     &:active {
         transform: translateX(0px); 
     }
+}
 
-    &~ .dashboard {
-        filter: brightness(0.5);
-    }
+.shadow {
+    background-color: #0000006c;
+    width: 80%;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 1;
+    animation: shadow 0.5s;
 }
 
 .hiddenSidebar {
@@ -21,12 +28,12 @@
     background-color: #204aa7;
     transform: translateX(-300px);
     position: absolute;
-    z-index: 1;
-    transition: all 0.5s ease;
+    z-index: 2;
+    transition: all 0.5s;
 }
 
 .dashboard {
-    background-color: #396ad3;
+    background-color: #ffffff;
     width: 100%;
     height: 90%;
     display: flex;
@@ -40,41 +47,14 @@
         display: flex;
         align-self: center;
         justify-content: center;
+    }
+}
 
-        .user {
-            background-color: #ffffff;
-            display: flex;
-            align-self: center;
-            justify-content: space-around;
-            flex-direction: column;
-            height: 50%;
-            width: 50%;
-            align-items: center;
-            border-radius: 8px;
-            color: #474747;
-
-            h2 {
-                color: #a3a3a3;
-                font-size: 20px;
-                font-weight: 400;
-            }
-        }
-
-        button {
-            border: none;
-            align-self: center;
-            background-color: #396ad3;
-            color: white;
-            height: 48px;
-            width: 50%;
-            border-radius: 8px;
-            margin-top: 16px;
-            cursor: pointer;
-            outline: none;
-            font-size: 22px;
-            font-weight: 400;
-            padding: 8px;
-        }
+@keyframes shadow {
+    from {
+        width: 100%;
+    } to {
+        width: 80%;
     }
 }
 
@@ -87,6 +67,10 @@
         width: 100%;
         transform: translateX(0px);
         transform: translateY(-100%);
+    }
+
+    .shadow {
+        display: none;
     }
 
     .dashboard {

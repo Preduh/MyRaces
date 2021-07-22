@@ -72,22 +72,23 @@
                 }
             }
 
-            #googleBtn {
-                background-color: white;
-                color: #696969;
-                font-weight: 400;
-                box-shadow: 2px 2px 8px #696969;
-                border-radius: 50%;
-                min-width: 64px;
-                min-height: 64px;
+            .googleBtn {
+                background-color: #EA4335;
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                align-self: center;
-                transition: all linear 0.1s;
+                margin-bottom: 24px;
+                border: none;
 
                 img {
                     width: 32px;
+                    margin-right: 32px;
+                }
+
+                p {
+                    color: white;
+                    white-space: nowrap;
+                    margin-top: 0;
                 }
 
                 &:hover {
@@ -106,6 +107,7 @@
                 outline: none;
                 font-size: 22px;
                 font-weight: 400;
+                transition: all linear 0.1s;
 
                 &:hover {
                     transform: scale(1.02);
@@ -188,6 +190,10 @@
                     }
                 }
 
+                .googleBtn {
+                    background-color: #d12d7c;
+                }
+
                 input {
                     border: none;
 
@@ -218,7 +224,7 @@
     }
 }
 
-@media (max-width: 875px) {
+@media (max-width: 1000px) {
     .pageAuth, .pageAuthDark {
         aside {
             display: none;

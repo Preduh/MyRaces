@@ -6,6 +6,7 @@ import { parseCookies } from 'nookies'
 import { useContext, useEffect, useState } from 'react'
 import { AuthContext } from '../contexts/authContext'
 import Switch from '../components/switchButton'
+import { signIn, useSession } from 'next-auth/client'
 
 interface IData {
   username: string
@@ -15,8 +16,9 @@ interface IData {
 
 const Home: NextPage = () => {
   const { register, handleSubmit } = useForm()
-  const { signIn } = useContext(AuthContext)
+  const { login } = useContext(AuthContext)
   const [error, setError] = useState('')
+  const [session] = useSession()
 
   const [darkMode, setDarkMode] = useState(false)
 
@@ -42,7 +44,7 @@ const Home: NextPage = () => {
   }
 
   const handleSignIn = async (userData: IData) => {
-    const err = await signIn(userData)
+    const err = await login(userData)
 
     setError(err)
   }
@@ -57,11 +59,24 @@ const Home: NextPage = () => {
             <h1>
               Entre no <span>MyRaces</span>
             </h1>
+            {!session && (
+              <button
+                type="button"
+                className={styles.googleBtn}
+                onClick={() =>
+                  signIn('google', {
+                    callbackUrl: `${process.env.NEXTAUTH_URL}/dashboard`
+                  })
+                }
+              >
+                <img src="images/google.svg" />
+                <p>Entre com o google</p>
+              </button>
+            )}
             <input
               {...register('username')}
               type="text"
               placeholder="Nome de usuário"
-              autoFocus={true}
               name="username"
               autoComplete="off"
               autoCapitalize="off"
@@ -101,9 +116,17 @@ const Home: NextPage = () => {
 export default Home
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const { ['myraces.token']: token } = parseCookies(ctx)
+  const { ['myraces.token']: token, ['next-auth.session-token']: authToken } =
+    parseCookies(ctx)
 
   if (token) {
+    return {
+      redirect: {
+        destination: '/dashboard',
+        permanent: false
+      }
+    }
+  } else if (authToken) {
     return {
       redirect: {
         destination: '/dashboard',
