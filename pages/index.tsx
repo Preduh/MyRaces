@@ -43,8 +43,6 @@ const Home: NextPage = () => {
     }
   }
 
-  console.log(process.env.TOKEN_KEY)
-
   const handleSignIn = async (userData: IData) => {
     const err = await login(userData)
 

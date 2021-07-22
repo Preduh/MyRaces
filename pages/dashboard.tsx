@@ -47,13 +47,11 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     }
   }
 
-  if (!token) {
-    if (!authToken) {
-      return {
-        redirect: {
-          destination: '/',
-          permanent: false
-        }
+  if (!token && !authToken) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false
       }
     }
   }
