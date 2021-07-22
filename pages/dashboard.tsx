@@ -32,6 +32,20 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { ['myraces.token']: token, [`${process.env.TOKEN_KEY}`]: authToken } =
     parseCookies(ctx)
 
+  if (token || authToken) {
+  } else {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false
+      }
+    }
+  }
+
+  return {
+    props: {}
+  }
+
   if (token) {
     const apiClient = getApiClient(ctx)
     const { data } = await apiClient.post('api/user/me', { token })
@@ -43,13 +57,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
           destination: '/',
           permanent: false
         }
-      }
-    }
-  } else if (!authToken) {
-    return {
-      redirect: {
-        destination: '/',
-        permanent: false
       }
     }
   }
