@@ -45,13 +45,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
         }
       }
     }
-  } else if (!authToken) {
-    return {
-      redirect: {
-        destination: '/',
-        permanent: false
-      }
-    }
   }
 
   return {
