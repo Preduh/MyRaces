@@ -45,9 +45,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
         }
       }
     }
-  }
-
-  if (!token && !authToken) {
+  } else if (!authToken) {
     return {
       redirect: {
         destination: '/',
